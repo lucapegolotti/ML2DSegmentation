@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.0)
 
 project(mylib VERSION 1.0.0 DESCRIPTION "Machine Learning Segmentation Plugin for SimVascular")
 
+include_directories(python-install/include/python3.9)
+
 add_library(ml2dsegmentation SHARED
             src/ML2DSegmentationInterface.cpp)
 

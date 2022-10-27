@@ -1,7 +1,0 @@
-/home/luca/repositories/ML2DSegmentation/build/CMakeFiles/ml2dsegmentation.dir
-/home/luca/repositories/ML2DSegmentation/build/CMakeFiles/edit_cache.dir
-/home/luca/repositories/ML2DSegmentation/build/CMakeFiles/rebuild_cache.dir
-/home/luca/repositories/ML2DSegmentation/build/CMakeFiles/list_install_components.dir
-/home/luca/repositories/ML2DSegmentation/build/CMakeFiles/install.dir
-/home/luca/repositories/ML2DSegmentation/build/CMakeFiles/install/local.dir
-/home/luca/repositories/ML2DSegmentation/build/CMakeFiles/install/strip.dir
