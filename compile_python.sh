@@ -1,5 +1,7 @@
 #!/bin/bash
 
+rm python-install
+
 CURDIR=$(pwd)
 PYTHONINSTALL=$CURDIR/python-install
 
@@ -8,7 +10,9 @@ git clone https://github.com/python-cmake-buildsystem/python-cmake-buildsystem
 cd python-cmake-buildsystem
 mkdir build
 cd build
-cmake -DCMAKE_INSTALL_PREFIX=$PYTHONINSTALL ..
+cmake -DCMAKE_INSTALL_PREFIX=$PYTHONINSTALL \
+      -DWITH_STATIC_DEPENDENCIES=ON \
+      ..
 make install
 
 rm -r -f $CURDIR/python-cmake-buildsystem

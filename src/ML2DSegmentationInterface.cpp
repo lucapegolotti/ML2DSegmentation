@@ -14,6 +14,7 @@ ML2DSegmentationInterface* ML2DSegmentationInterface::getInstance(std::string ne
 
 ML2DSegmentationInterface::ML2DSegmentationInterface(std::string network_type)
 {
+    Py_Initialize();
     PyRun_SimpleString("import sys");
     PyRun_SimpleString("print(sys.path)");
     PyRun_SimpleString("print(sys.version)");
