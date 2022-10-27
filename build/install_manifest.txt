@@ -1,0 +1,3 @@
+/home/luca/repositories/ML2DSegmentation-install/lib/libml2dsegmentation.so.1.0.0
+/home/luca/repositories/ML2DSegmentation-install/lib/libml2dsegmentation.so
+/home/luca/repositories/ML2DSegmentation-install/include/ML2DSegmentationInterface.h
