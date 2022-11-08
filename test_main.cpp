@@ -4,5 +4,5 @@
 
 int main()
 {   
-    auto ml_utils = ML2DSegmentationInterface::getInstance("test");
+    auto ml_utils = ML2DSegmentationInterface::getInstance("twostream");
 }
