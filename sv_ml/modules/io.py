@@ -29,6 +29,7 @@
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 import yaml
+from yaml import Loader
 import csv
 import os
 import json
@@ -47,7 +48,7 @@ def load_yaml(fn):
     """loads a yaml file into a dict"""
     with open(fn,'r') as file_:
         try:
-            return yaml.load(file_)
+            return yaml.load(file_, Loader=Loader)
         except RuntimeError as e:
             print("failed to load yaml fille {}, {}\n".format(fn,e))
 

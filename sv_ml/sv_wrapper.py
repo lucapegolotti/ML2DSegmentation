@@ -61,21 +61,17 @@ import json
 
 MODEL = "TWO_STREAM"
 
-print("importing seg_reg modules")
-if MODEL == "TWO_STREAM":
-    print("TWO_STREAM method")
-    import torch
-    from unet import Two_UNet_Fusion
-    from modules.gvf_image import sv_gvf
-else :
-    from sv_ml.modules import io
-    from sv_ml.modules import sv_image
-    from sv_ml.modules import vascular_data
+import torch
+from sv_ml.unet import Two_UNet_Fusion
+from sv_ml.modules.gvf_image import sv_gvf
+from sv_ml.modules import io
+from sv_ml.modules import sv_image
+from sv_ml.modules import vascular_data
 
 print("importing factories")
 # import sv_ml.factories.model_factory as model_factory
-# import sv_ml.factories.preprocessor_factory as preprocessor_factory
-# import sv_ml.factories.postprocessor_factory as postprocessor_factory
+import sv_ml.factories.preprocessor_factory as preprocessor_factory
+import sv_ml.factories.postprocessor_factory as postprocessor_factory
 
 print("getting directories")
 SRC_DIR    = os.path.dirname(os.path.realpath(__file__))
@@ -90,27 +86,25 @@ np.random.seed(0)
 class SVWrapper(object):
     def __init__(self, network_type):
         print("SVWrapper init, {}".format(network_type))
+        self.cfg_fn = os.path.join(CONFIG_DIR,"{}.yaml".format(network_type))
+        print(self.cfg_fn)
+
+        if not os.path.isfile(self.cfg_fn):
+            raise RuntimeError("network type does not exist {}".format(self.cfg_fn))
+
+        self.cfg = io.load_yaml(self.cfg_fn)
+
+        p = self.cfg['MODEL_DIR'].replace('./','')
+        p = p.split('/')
+        self.cfg['MODEL_DIR'] = os.path.join(SRC_DIR,*p)
         if network_type == MODEL:
             self.model_type = network_type
             self.device = 'cpu'
             self.model = Two_UNet_Fusion(n_channels_rgb=1,n_channels_gvf=2, n_classes=1, bilinear=False)
-            ckpt = torch.load("./weights/2022-08-17-11-43-775371.pt",map_location='cpu')
+            ckpt = torch.load(self.cfg["MODEL_DIR"],map_location='cpu')
             state = ckpt['state_dict']
             self.model.load_state_dict(state)
         else:
-            self.cfg_fn = os.path.join(CONFIG_DIR,"{}.yaml".format(network_type))
-            print(self.cfg_fn)
-
-            if not os.path.isfile(self.cfg_fn):
-                raise RuntimeError("network type does not exist {}".format(self.cfg_fn))
-
-            self.cfg = io.load_yaml(self.cfg_fn)
-
-            p = self.cfg['MODEL_DIR'].replace('./','')
-            p = p.split('/')
-            self.cfg['MODEL_DIR'] = os.path.join(SRC_DIR,*p)
-
-
             print("Model dir ", self.cfg['MODEL_DIR'])
 
             self.model = model_factory.get(self.cfg)
@@ -124,8 +118,8 @@ class SVWrapper(object):
             self.model.load()
             print("model loaded")
 
-            self.preprocessor  = preprocessor_factory.get(self.cfg)
-            self.postprocessor = postprocessor_factory.get(self.cfg)
+        self.preprocessor  = preprocessor_factory.get(self.cfg)
+        self.postprocessor = postprocessor_factory.get(self.cfg)
 
     def set_image(self, image_fn):
         # print("setting image {}".format(image_fn))
@@ -157,8 +151,6 @@ class SVWrapper(object):
                 pred = torch.squeeze(pred)
                 pred =  pred.detach().cpu().numpy()
                
-                
-            
         else:
             try:
                 data = json.loads(point_string)

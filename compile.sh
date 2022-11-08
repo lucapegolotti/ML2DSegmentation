@@ -16,4 +16,4 @@ cmake \
 make VERBOSE=1
 make install
 
-cp -r $CURDIR/sv_ml $CURDIR/python-install/lib/python3.9/site-packages/
+ln -s $CURDIR/sv_ml $CURDIR/python-install/lib/python3.9/site-packages/

@@ -34,3 +34,5 @@ REPLACEME_SV_TOP_BIN_DIR_PYTHON/bin/pip cache purge
 ./python -m pip install torch
 ./python -m pip install pyyaml
 ./python -m pip install vtk
+./python -m pip install opencv-python
+./python -m pip install scipy

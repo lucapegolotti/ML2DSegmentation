@@ -26,7 +26,7 @@ import os
 from os import path
 import sys
 # sys.path.append("..")
-from modules.GVF2D import *
+from sv_ml.modules.GVF2D import *
 
 RESIZE=240
 RE_VALUE=1e-10
